@@ -19,7 +19,10 @@ function App() {
       {modalVisible && (
         <div className='modal-overlay' role='dialog' aria-modal='true'>
         <div className='modal-content'>
-          <Formulario />
+          <Formulario 
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          />
         </div>
       </div>
       )}
