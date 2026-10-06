@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import Formulario from './components/Formulario.jsx';
 import './css/main.css';
+import Paciente from './components/Paciente.jsx';
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [pacientes, setPacientes] = useState([]);
+  // Para pasar estados de un componente padre a un componente hijo se hace a traves de props 
   return (
     <main className="container">
       <h1 className='titulo'>
@@ -16,15 +19,19 @@ function App() {
         <span className='btn-texto-nueva-cita'>Nueva Cita</span>
       </button>
 
+      <Paciente />
+
       {modalVisible && (
         <div className='modal-overlay' role='dialog' aria-modal='true'>
-        <div className='modal-content'>
-          <Formulario 
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          />
+          <div className='modal-content'>
+            <Formulario 
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              pacientes={pacientes}
+              setPacientes={setPacientes}
+            />
+          </div>
         </div>
-      </div>
       )}
 
     </main>
