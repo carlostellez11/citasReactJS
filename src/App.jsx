@@ -19,7 +19,16 @@ function App() {
         <span className='btn-texto-nueva-cita'>Nueva Cita</span>
       </button>
 
-      <Paciente />
+      {pacientes.map((paciente) => (
+        <Paciente
+        setModalVisible = {setModalVisible}
+        pacientes = {pacientes}
+        paciente = {paciente}
+        key={paciente.id}
+        />
+      ))}
+
+      
 
       {modalVisible && (
         <div className='modal-overlay' role='dialog' aria-modal='true'>
