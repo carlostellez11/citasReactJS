@@ -7,6 +7,14 @@ function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [pacientes, setPacientes] = useState([]);
   // Para pasar estados de un componente padre a un componente hijo se hace a traves de props 
+  const eliminarPaciente = (id) => {
+    const confirmar = window.confirm("Deseas eliminar el paciente? Una vez eliminado no se puede recuperar");
+    console.log(confirmar);
+    if (confirmar) {
+      const pacienteActualizado = pacientes.filter(paciente => paciente.id != id);
+      setPacientes(pacienteActualizado);
+    }
+  }
   return (
     <main className="container">
       <h1 className='titulo'>
@@ -24,6 +32,7 @@ function App() {
         setModalVisible = {setModalVisible}
         pacientes = {pacientes}
         paciente = {paciente}
+        eliminarPaciente = {eliminarPaciente}
         key={paciente.id}
         />
       ))}
