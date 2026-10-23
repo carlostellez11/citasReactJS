@@ -6,7 +6,12 @@ import Paciente from './components/Paciente.jsx';
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [pacientes, setPacientes] = useState([]);
+  const [pacienteEditado, setPacienteEditado] = useState({});
   // Para pasar estados de un componente padre a un componente hijo se hace a traves de props 
+  const editarPaciente = (id) => {
+    const pacienteEdit = pacientes.filter(paciente => paciente.id === id);
+    setPacienteEditado(pacienteEdit[0])
+  }
   const eliminarPaciente = (id) => {
     const confirmar = window.confirm("Deseas eliminar el paciente? Una vez eliminado no se puede recuperar");
     console.log(confirmar);
@@ -34,6 +39,7 @@ function App() {
         paciente = {paciente}
         eliminarPaciente = {eliminarPaciente}
         key={paciente.id}
+        editarPaciente = {editarPaciente}
         />
       ))}
 
@@ -47,6 +53,8 @@ function App() {
               setModalVisible={setModalVisible}
               pacientes={pacientes}
               setPacientes={setPacientes}
+              pacienteEditado={pacienteEditado}
+              setPacienteEditado={setPacienteEditado}
             />
           </div>
         </div>

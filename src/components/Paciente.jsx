@@ -4,14 +4,14 @@ const Paciente = ({
     setModalVisible,
     pacientes,
     paciente,
-    eliminarPaciente
+    eliminarPaciente,
+    editarPaciente
 }) => {
     //handle funcion dentro del DOM para eventos
     const handleEditar = () => {
         // Abrir el modal cuando se de clic
         setModalVisible(true);
-        // En console.log mostrar el array de pacientes
-        console.log(pacientes);
+        editarPaciente(paciente.id)
     }
     const handleEliminar = () => { 
         eliminarPaciente(paciente.id);

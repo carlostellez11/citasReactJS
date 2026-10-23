@@ -5,7 +5,9 @@ const Formulario = ({
     modalVisible,
     setModalVisible,
     pacientes,
-    setPacientes
+    setPacientes,
+    pacienteEditado,
+    setPacienteEditado
 }) => {
     const [paciente, setPaciente] = useState('');
     const [nombrePropietario, setNombrePropietario] = useState('');
@@ -13,6 +15,38 @@ const Formulario = ({
     const [telefono, setTelefono] = useState('');
     const [fechaAlta, setFechaAlta] = useState('');
     const [sintomas, setSintomas] = useState('');
+    const [idPaciente, setIdPaciente] = useState('');
+
+    useEffect(() => {
+        if(Object.keys(pacienteEditado).length > 0) {
+            setPaciente(pacienteEditado.paciente);
+            setNombrePropietario(pacienteEditado.nombrePropietario);
+            setCorreo(pacienteEditado.correo);
+            setTelefono(pacienteEditado.telefono);
+            setFechaAlta(pacienteEditado.fechaAlta);
+            setSintomas(pacienteEditado.sintomas);
+            setIdPaciente(pacienteEditado.id);
+        }
+    }, []);
+
+    const resetFormulario = () => {
+        setPaciente('');
+        setNombrePropietario('');
+        setCorreo('');
+        setTelefono('');
+        setFechaAlta('');
+        setSintomas('');
+    }
+
+    const cleanForm = () => {
+        resetFormulario();
+        setModalVisible(false);
+        setPacienteEditado({});
+    }
+
+    const handleCancelar = () => {
+        cleanForm();
+    }
 
     /**
      * Create 5 new states
@@ -50,24 +84,40 @@ const Formulario = ({
             sintomas
         };
 
-        nuevoPaciente.id = Date.now();
-        console.log(nuevoPaciente);
 
-        // Save all new records
-        // state = add my object intp the array
-        setPacientes([...pacientes,nuevoPaciente])
-        setModalVisible(false);
+        if(pacienteEditado.id){
+            // Si ya tiene id
+            nuevoPaciente.id = paciente.id;
+            const nuevosPacientes = pacientes.map(paciente => paciente.id === pacienteEditado.id ? nuevoPaciente : paciente);
 
+            // const nuevosPacientes = pacientes.map((paciente) => {
+            //     if(paciente.id === pacienteEditado.id){
+            //         nuevoPaciente.id = paciente.id;
+            //         return nuevoPaciente;
+            //     } else {
+            //         return paciente;
+            //     }
+            // });
+
+            setPacientes(nuevosPacientes);
+        } else {
+            //si no tiene id
+            nuevoPaciente.id = Date.now();
+             // Save all new records
+            // state = add my object into the array
+            setPacientes([...pacientes,nuevoPaciente]);
+        }
+        cleanForm();
     }
 
     return (
         <div className="formulario-contenido">
-            <h2 className="formulario-titulo"> Nueva 
+            <h2 className="formulario-titulo">{idPaciente ? 'Editar' : 'Nueva'} 
                 <span className="formulario-titulo-bold"> Cita </span>
             </h2>
             <button
             className="formulario-btn-cancelar"
-            onClick={() => setModalVisible(false)}
+            onClick={() => handleCancelar()}
             >
                 <span className="formulario-btn-texto-cancelar">Cancelar</span>
             </button>
@@ -162,7 +212,7 @@ const Formulario = ({
                 <button
                 type="submit"
                 className="formulario-btn-submit"
-                > Agregar Paciente</button>
+                > {idPaciente ? 'Editar' : 'Agregar'} Paciente</button>
             </form>
         </div>
     );
